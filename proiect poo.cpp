@@ -3,7 +3,7 @@
 //rooms (undone)
 //intrebari grila (undone)
 //file reading
-// '*' marked tasks will be focused after finishing the project and will generate a more complex algorithm
+// '*' marked tasks will be focused after finishing the project and will generate a more complex algorithm;
 
 #include <iostream.h>
 
