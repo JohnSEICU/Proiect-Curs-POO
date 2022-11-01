@@ -1,7 +1,13 @@
+// file posible words
+// is valid
+// reshuffle function
+
+
 #include <iostream>
 #include <string.h>
 #include <stdlib.h>
-#include <fstream>
+#include <fstream> // file reading
+#include <ctime> // timer for the player to write the word
 
 // litera mica - letter multiplier
 // litera mare - word multiplier
@@ -27,6 +33,7 @@ class Player
     public:
         int points;
         int pointCalculator(std::string word);
+
         subclass - word
             public:
                 std::string word;
@@ -39,7 +46,7 @@ class Board
     public:
         std::string type;
         int multiplier;
-        boolean is_word;//???
+        boolean is_word; // ???
 };
 
 class Letter
@@ -52,7 +59,24 @@ class Letter
 
 void pointCalculator()
 {
+    if(is_word == true)
+    {
+        for(int i = 0 ; i < sizeof(word) ; i++)
+        {
+            sum = sum + litere.value_of_letter;
+        }
 
+        points = points + sum*multiplier;
+    }
+    else
+    {
+        for(int i = 0 ; i < sizeof(word) ; i++)
+        {
+            sum = sum + litere.value_of_letter*multiplier;
+        }
+
+        points = points + sum;
+    }
 }
 
 int main()
@@ -62,7 +86,8 @@ int main()
     Player player3;
     Player player4;
 
-    Board board[15][15]//file reading - csv
+    Board board[15][15]; // file reading - csv
 
-    Letter litere[26];//file reading - csv
+    Letter litere[26]; // file reading - csv
+    int total_letter_count;
 }
