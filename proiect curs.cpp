@@ -1,13 +1,13 @@
 // file posible words
 // is valid
 // reshuffle function
-
+// starting point
 
 #include <iostream>
 #include <string.h>
 #include <stdlib.h>
 #include <fstream> // file reading
-#include <ctime> // timer for the player to write the word
+#include <ctime> // timer for the player to write the word (1 min)
 
 // litera mica - letter multiplier
 // litera mare - word multiplier
