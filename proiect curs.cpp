@@ -148,7 +148,7 @@ class Map
 {
     public:
         bool validMove(std::string move, std::vector<std::string> exits);
-        void printRoom(Room room, int i);
+        int printRoom(Room room, int i);
         bool answerQuestion(std::string answer, std::string correct_answer, int &health, std::string hint, int &try_count);
         void showHint(std::string hint);
         int getMove(std::vector<std::string> exits, int i);
@@ -164,7 +164,7 @@ bool Map::validMove(std::string move, std::vector<std::string> exits)
     return false;
 }
 
-void Map::printRoom(Room room, int i) 
+int Map::printRoom(Room room, int i) 
 {
     std::string move;
     std::string answer;
@@ -175,7 +175,6 @@ void Map::printRoom(Room room, int i)
         std::cout << "Question: " << room.question << std::endl;
         std::cout << "Answer: ";
         std::cin >> answer;
-        answerQuestion(answer, room.answer, MAX_HEALTH, room.hint, try_count);
         room.is_completed = true;
 
         
@@ -189,7 +188,7 @@ void Map::printRoom(Room room, int i)
             std::cout << std::endl;
 
 
-            getMove(room.exits, i);
+            i = getMove(room.exits, i);
         }
         else
         {   
@@ -199,11 +198,13 @@ void Map::printRoom(Room room, int i)
                 std::cout << "health: " << MAX_HEALTH << std::endl;
                 std::cout << "Answer: ";
                 std::cin >> answer;
-                // answerQuestion(answer, room.answer, MAX_HEALTH, room.hint, try_count);
+                std::cout << try_count;
             } while (answerQuestion(answer, room.answer, MAX_HEALTH, room.hint, try_count) == false && MAX_HEALTH > 0);
         }
         
-    } 
+    }
+
+    return i;
 }
 
 bool Map::answerQuestion(std::string answer, std::string correct_answer, int &health, std::string hint, int &try_count) 
@@ -240,12 +241,16 @@ void Map::showHint(std::string hint)
 int Map::getMove(std::vector<std::string> exits, int i) 
 {   
     int pos;
-
+    std::cout << "sunt in getMove" << std::endl;
     for(int k = 0; k < path_begin.size(); k++)
     {
+        std::cout << "sunt in for pentru player pos" << std::endl;
+        std::cout << i <<std::endl;
         if(i == path_begin.at(k))
         {
+            std::cout << "det player move" << std::endl;
             pos = k;
+            std:: cout << pos << " " << k << std::endl;
         }
     }
 
@@ -266,15 +271,18 @@ int Map::getMove(std::vector<std::string> exits, int i)
 
     for(int j = 0; j < path_begin.size(); j++)
     {
-        if(move == path_diretions.at(j) && pos == path_begin.at(j))
+        std::cout << "sunt in for" << std::endl;
+        if(move == path_diretions.at(j))
         {
-            new_room = path_end.at(j);
+            std::cout<<"path director"<<std::endl;
+            std::cout << pos << " " << path_begin.at(j) << std::endl;
+            if(pos == path_begin.at(j))
+            {
+                std::cout << "next room" << std::endl;
+                return path_end.at(j)-1;
+            }
         }
     }
-
-    i = new_room - 1;
-
-    return i;
 }
 
 int main()
@@ -333,10 +341,11 @@ int main()
 
     //game loop
     //! TREBUIE SA RETURNZE POZITIA CAMEREI URMATOARE
-    for(int i = 0; i < rooms.size() && MAX_HEALTH > 0; i++)
+    int i = 0;
+
+    while(i < rooms.size() && MAX_HEALTH > 0)
     {
-        map.printRoom(rooms[i], i);
-        std::cout << rooms[i].getIsCompleted() << std::endl;
+        i = map.printRoom(rooms[i], i);
 
         if(rooms[i].getIsEnd() == true)
         {
@@ -350,4 +359,3 @@ int main()
 
     return 0;
 }
-
