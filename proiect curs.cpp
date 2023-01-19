@@ -10,28 +10,7 @@ int MAX_HEALTH = 3;
 const int GAME_DURATION_MINUTES = 60;
 
 const std::vector <int> path_begin = 
-{1, 2, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29};
-const std::vector <int> path_end = 
-{2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 27, 28, 29, 30};
-const std::vector <std::string> path_diretions = 
-{"East", "North", "South", "East", "East", "North", "South", "West", "West", "North", "South", "East", "East", "East", "East", "East", "East", "South", "North", "South", "North", "East", "East", "East", "East", "South", "North", "East", "East", "East"};
-
-
-// !! matricea hartii
-// std::string game_map[7][9] =
-// { 
-//     {" ", "[]", "[]", "[]", "[]", " ", " ", " ", " "},
-//     {" ", "[]", "[]", " ", "[]", " ", " ", " ", " "},
-//     {" ", "[]", "[]", " ", "[]", "[]", " ", " ", " "},
-//     {"[X]", "[]", " ", " ", " ", "[]", "[]", "[]", "[]"},
-//     {" ", "[]", "[]", " ", "[]", "[]", " ", " ", " "},
-//     {" ", "[]", "[]", " ", "[]", " ", " ", " ", " "},
-//     {" ", "[]", "[]", "[]", "[]", " ", " ", " ", " "},
-
-// };
-
-// !! vector de pozitii
-// std::vector<int> player_pos = {3, 0};
+{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30};
 
 class Room 
 {
