@@ -402,7 +402,7 @@ void Map::saveGame(int i, int save)
 {
     std::string row, aux;
     std::ofstream fin;
-    fin.open("saves.csv",);
+    fin.open("saves.csv");
 
     std::vector<int> save_rooms;
 
@@ -451,8 +451,6 @@ void Map::saveGame(int i, int save)
             break;
 
     }
-
-    fout.close();
 }
 
 int main()
