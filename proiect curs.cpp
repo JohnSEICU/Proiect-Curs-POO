@@ -130,6 +130,7 @@ class Map
         bool answerQuestion(std::string answer, std::string correct_answer, int &health, std::string hint, int &try_count);
         void showHint(std::string hint);
         int getMove(std::vector<std::string> exits, int i);
+        void saveGame(int i, int save);
 
 };
 
@@ -144,6 +145,7 @@ bool Map::validMove(std::string move, std::vector<std::string> exits)
 
 void Map::printRoom(Room room, int i, int save) 
 {
+    std::string close;
     std::string move;
     std::string answer;
     int try_count = 0;
@@ -224,7 +226,6 @@ void Map::printRoom(Room room, int i, int save)
 
                 if(answerQuestion(answer, room.answer, MAX_HEALTH, room.hint, try_count) == true)
                 {
-
                     std::cout << "Correct answer!" << std::endl;
                     room.is_completed = true;
 
@@ -317,7 +318,18 @@ void Map::printRoom(Room room, int i, int save)
         
         default:
             break;
-        }       
+        }      
+
+        std::cout << "Do you want to exit and save the game? (y/n): ";
+
+        std::cin >> close;
+
+        if(close == "y")
+        {
+            std::cout << "Game saved!" << std::endl;
+            saveGame(i, save);
+            exit(0);
+        }
 
     } 
 }
@@ -386,6 +398,63 @@ int Map::getMove(std::vector<std::string> exits, int i)
     return i;
 }
 
+void Map::saveGame(int i, int save) 
+{
+    std::string row, aux;
+    std::ofstream fin;
+    fin.open("saves.csv",);
+
+    std::vector<int> save_rooms;
+
+    while(std::getline(fin, row))
+    {
+        std::stringstream ss(row);
+        while(getline(ss, aux, ','))
+        {
+            save_rooms.push_back(std::stoi(aux));
+        }
+    }   
+    
+    switch (save)
+    {
+        case 1:
+        {
+            std::ofstream fout;
+            fout.open("saves.csv", std::ios::out);
+            save_rooms.at(0) = i;
+            fout << save_rooms.at(0) << "," << save_rooms.at(1) << "," <<  save_rooms.at(2) << std::endl;
+            fout.close();
+            break;
+        }
+            
+        case 2:
+        {
+            std::ofstream fout;
+            fout.open("saves.csv", std::ios::out);
+            save_rooms.at(1) = i;
+            fout << save_rooms.at(0) << "," << save_rooms.at(1) << "," <<  save_rooms.at(2) << std::endl;
+            fout.close();
+            break;
+        }
+
+        case 3:
+        {
+            std::ofstream fout;
+            fout.open("saves.csv", std::ios::out);
+            save_rooms.at(2) = i;
+            fout << save_rooms.at(0) << "," << save_rooms.at(1) << "," <<  save_rooms.at(2) << std::endl;
+            fout.close();
+            break;
+        }
+
+        default:
+            break;
+
+    }
+
+    fout.close();
+}
+
 int main()
 {
     std::cout << "**********************************************************" << std::endl;
@@ -411,8 +480,9 @@ int main()
     std::vector <std::string> exits;
     bool is_completed;
     bool is_end;
-    std::vector <int> saves;
     int num, i;
+    std::vector <int> room_save;
+    std::vector <int> file_save;
     
     std::string aux;
     std::string row;
@@ -450,15 +520,10 @@ int main()
                     hint = aux;
 
                     std::getline(sin, aux, ',');
-                    std::stringstream sin2(aux);
-                    while (std::getline(sin2, aux, ' ')) 
-                    {
-                        exits.push_back(aux);
-                    }
+                    exits.push_back(aux);
 
                     std::getline(sin, aux, ',');
                     is_completed = aux == "true" ? true : false;
-                
 
                     std::getline(sin, aux, ',');
                     is_end = aux == "true" ? true : false;
@@ -500,54 +565,12 @@ int main()
 
                     num = i;
                 }
-
-                switch (save)
-                {
-                case 1:
-                {
-                    saves.at(0) = i;
-                    saves.at(1) = 1;
-                    saves.at(2) = 1;
-                    break;
-                }
-                
-                case 2:
-                {
-                    saves.at(0) = 1;
-                    saves.at(1) = i;
-                    saves.at(2) = 1;
-                    break;
-                }
-
-                case 3:
-                {
-                    saves.at(0) = 1;
-                    saves.at(1) = 1;
-                    saves.at(2) = i;
-                    break;
-                }
-
-
-                for(int i = 0; i < saves.size(); i++)
-                {
-                    fout << saves.at(i) << ",";
-                }
-
-                fout.open("saves.csv");
-
-                for(int i = 0; i < saves.size(); i++)
-                {
-                    fout << saves.at(i) << ",";
-                }
-                default:
-                    break;
-                }
             }
+
 
             case 2:
             {
                 int save;
-
 
                 std::cout << "Start Game" << std::endl;
 
@@ -557,270 +580,252 @@ int main()
                 {
                     std::stringstream sin(row);
                     std::getline(sin, aux, ',');
-                    saves.push_back(std::stoi(aux));
+                    room_save.push_back(std::stoi(aux));
+                    std::getline(sin, aux, ',');
+                    file_save.push_back(std::stoi(aux));
                 }
 
                 fin1.close();
 
+                for (int i = 0; i < room_save.size(); i++)
+                {
+                    std::cout << room_save.at(i) << "," << file_save.at(i) << std::endl;
+                }
+
                 do
                 {
-                    std::cout << "Choose a save where you want your progress to be saved: " << std::endl;
+                    std::cout << "Choose the file you saved your progress: " << std::endl;
                     std::cout << "1. Save 1" << std::endl;
                     std::cout << "2. Save 2" << std::endl;
                     std::cout << "3. Save 3" << std::endl;
                     std::cin >> save;
-                
-                    switch (save)
+
+                    for(int i = 0; i < file_save.size(); i++)
                     {
-                        case 1:
+                        if(save == file_save.at(i))
+                    {
+                        switch (save)
                         {
-                            std::cout << "Save 1" << std::endl;
-
-                            std::ofstream fout;
-                            std::ifstream fin;
-                            //filereading in vector
-                            fin.open("questions.csv");
-
-                            while(std::getline(fin, row))
+                            case 1:
                             {
-                                std::stringstream sin(row);
-                                room_count++;
+                                std::cout << "Save 1" << std::endl;
 
-                                std::getline(sin, aux, ',');
-                                question = aux;
+                                std::ofstream fout;
+                                std::ifstream fin;
+                                //filereading in vector
+                                fin.open("questions.csv");
 
-                                std::getline(sin, aux, ',');
-                                answer = aux;
-
-                                std::getline(sin, aux, ',');
-                                hint = aux;
-
-                                std::getline(sin, aux, ',');
-                                std::stringstream sin2(aux);
-                                while (std::getline(sin2, aux, ' ')) 
+                                while(std::getline(fin, row))
                                 {
-                                    exits.push_back(aux);
-                                }
+                                    std::stringstream sin(row);
+                                    room_count++;
 
-                                std::getline(sin, aux, ',');
-                                is_completed = aux == "true" ? true : false;
-                            
+                                    std::getline(sin, aux, ',');
+                                    question = aux;
 
-                                std::getline(sin, aux, ',');
-                                is_end = aux == "true" ? true : false;
+                                    std::getline(sin, aux, ',');
+                                    answer = aux;
 
-                                rooms.push_back(Room(question, answer, hint, exits, is_completed, is_end));
+                                    std::getline(sin, aux, ',');
+                                    hint = aux;
 
-                                exits.clear();
-                            }
+                                    std::getline(sin, aux, ',');
+                                    std::stringstream sin2(aux);
+                                    while (std::getline(sin2, aux, ' ')) 
+                                    {
+                                        exits.push_back(aux);
+                                    }
 
-                            fin.close();
-
-                            start = std::chrono::system_clock::now();
-
-
-                            for(int i = 0; i < rooms.size() && MAX_HEALTH > 0; i++)
-                            {
-
-                                map.printRoom(rooms[i], i, save);
-                                // std::cout << rooms[i].getIsCompleted() << std::endl;
-                                end = std::chrono::system_clock::now();
-                                if(end >= start + std::chrono::minutes(GAME_DURATION_MINUTES))
-                                {
-                                    std::cout << "You ran out of time!" << std::endl;
-                                    return 0;
-                                }
-                                else if(rooms[i].getIsEnd() == true)
-                                {
-                                    std::cout << "You won!" << std::endl;
-                                    return 0;
-                                }
-
-                                saves.at(0) = i;
-                            }
-
-                            std::cout << "You ran out of lives!" << std::endl;
-                            return 0;
-
-                            saves.at(1) = 1;
-                            saves.at(2) = 1;
-                            fout.open("saves.csv");
-
-                            for(int i = 0; i < saves.size(); i++)
-                            {
-                                fout << saves.at(i) << ",";
-                            }
-
-
-                            break;
-                        }
-
-                        case 2:
-                        {
-                            std::cout << "Save 2" << std::endl;
-
-                            std::ofstream fout;
-                            std::ifstream fin;
-                            //filereading in vector
-                            fin.open("questions.csv");
-
-                            while(std::getline(fin, row))
-                            {
-                                std::stringstream sin(row);
-                                room_count++;
-
-                                std::getline(sin, aux, ',');
-                                question = aux;
-
-                                std::getline(sin, aux, ',');
-                                answer = aux;
-
-                                std::getline(sin, aux, ',');
-                                hint = aux;
-
-                                std::getline(sin, aux, ',');
-                                std::stringstream sin2(aux);
-                                while (std::getline(sin2, aux, ' ')) 
-                                {
-                                    exits.push_back(aux);
-                                }
-
-                                std::getline(sin, aux, ',');
-                                is_completed = aux == "true" ? true : false;
-
-                                std::getline(sin, aux, ',');
-                                is_end = aux == "true" ? true : false;
-
-                                rooms.push_back(Room(question, answer, hint, exits, is_completed, is_end));
-
-                                exits.clear();
-                            }
-
-                            fin.close();
-
-                            start = std::chrono::system_clock::now();
-                            
-                            for(int i = 0; i < rooms.size() && MAX_HEALTH > 0; i++)
-                            {   
+                                    std::getline(sin, aux, ',');
+                                    is_completed = aux == "true" ? true : false;
                                 
-                                map.printRoom(rooms[i], saves.at(2), save);
-                                // std::cout << rooms[i].getIsCompleted() << std::endl;
-                                end = std::chrono::system_clock::now();
-                                if(end >= start + std::chrono::minutes(GAME_DURATION_MINUTES))
-                                {
-                                    std::cout << "You ran out of time!" << std::endl;
-                                    return 0;
-                                }
-                                else if(rooms[i].getIsEnd() == true)
-                                {
-                                    std::cout << "You won!" << std::endl;
-                                    return 0;
+
+                                    std::getline(sin, aux, ',');
+                                    is_end = aux == "true" ? true : false;
+
+                                    rooms.push_back(Room(question, answer, hint, exits, is_completed, is_end));
+
+                                    exits.clear();
                                 }
 
-                                saves.at(1) = i;
+                                fin.close();
+
+                                start = std::chrono::system_clock::now();
+
+
+                                for(int i = room_save.at(i); i < rooms.size() && MAX_HEALTH > 0; i++)
+                                {
+
+                                    map.printRoom(rooms[i], i, file_save.at(i));
+                                    // std::cout << rooms[i].getIsCompleted() << std::endl;
+                                    end = std::chrono::system_clock::now();
+                                    if(end >= start + std::chrono::minutes(GAME_DURATION_MINUTES))
+                                    {
+                                        std::cout << "You ran out of time!" << std::endl;
+                                        return 0;
+                                    }
+                                    else if(rooms[i].getIsEnd() == true)
+                                    {
+                                        std::cout << "You won!" << std::endl;
+                                        return 0;
+                                    }
+
+                                }
+
+                                std::cout << "You ran out of lives!" << std::endl;
+                                return 0;
+
+                                break;
                             }
 
-                            std::cout << "You ran out of lives!" << std::endl;
-                            return 0;
-
-                            saves.at(0) = 1;
-                            saves.at(2) = 1;
-                            fout.open("saves.csv");
-
-                            for(int i = 0; i < saves.size(); i++)
+                            case 2:
                             {
-                                fout << saves.at(i) << ",";
-                            }
+                                std::cout << "Save 2" << std::endl;
 
-                            break;
-                        }
-                    
-                        case 3:
-                        {
-                            std::cout << "Save 3" << std::endl;
+                                std::ofstream fout;
+                                std::ifstream fin;
+                                //filereading in vector
+                                fin.open("questions.csv");
 
-                            std::ofstream fout;
-                            std::ifstream fin;
-                            //filereading in vector
-                            fin.open("questions.csv");
-
-                            while(std::getline(fin, row))
-                            {
-                                std::stringstream sin(row);
-                                room_count++;
-
-                                std::getline(sin, aux, ',');
-                                question = aux;
-
-                                std::getline(sin, aux, ',');
-                                answer = aux;
-
-                                std::getline(sin, aux, ',');
-                                hint = aux;
-
-                                std::getline(sin, aux, ',');
-                                std::stringstream sin2(aux);
-                                while (std::getline(sin2, aux, ' ')) 
+                                while(std::getline(fin, row))
                                 {
-                                    exits.push_back(aux);
+                                    std::stringstream sin(row);
+                                    room_count++;
+
+                                    std::getline(sin, aux, ',');
+                                    question = aux;
+
+                                    std::getline(sin, aux, ',');
+                                    answer = aux;
+
+                                    std::getline(sin, aux, ',');
+                                    hint = aux;
+
+                                    std::getline(sin, aux, ',');
+                                    std::stringstream sin2(aux);
+                                    while (std::getline(sin2, aux, ' ')) 
+                                    {
+                                        exits.push_back(aux);
+                                    }
+
+                                    std::getline(sin, aux, ',');
+                                    is_completed = aux == "true" ? true : false;
+
+                                    std::getline(sin, aux, ',');
+                                    is_end = aux == "true" ? true : false;
+
+                                    rooms.push_back(Room(question, answer, hint, exits, is_completed, is_end));
+
+                                    exits.clear();
                                 }
 
-                                std::getline(sin, aux, ',');
-                                is_completed = aux == "true" ? true : false;
+                                fin.close();
 
-                                std::getline(sin, aux, ',');
-                                is_end = aux == "true" ? true : false;
+                                start = std::chrono::system_clock::now();
+                                
+                                for(int i = room_save.at(i); i < rooms.size() && MAX_HEALTH > 0; i++)
+                                {   
+                                    
+                                    map.printRoom(rooms[i], i, file_save.at(i));
+                                    // std::cout << rooms[i].getIsCompleted() << std::endl;
+                                    end = std::chrono::system_clock::now();
+                                    if(end >= start + std::chrono::minutes(GAME_DURATION_MINUTES))
+                                    {
+                                        std::cout << "You ran out of time!" << std::endl;
+                                        return 0;
+                                    }
+                                    else if(rooms[i].getIsEnd() == true)
+                                    {
+                                        std::cout << "You won!" << std::endl;
+                                        return 0;
+                                    }
 
-                                rooms.push_back(Room(question, answer, hint, exits, is_completed, is_end));
-
-                                exits.clear();
-                            }
-
-                            fin.close();
-
-                            start = std::chrono::system_clock::now();
-
-                            for(int i = 0; i < rooms.size() && MAX_HEALTH > 0; i++)
-                            {
-                                map.printRoom(rooms[i], saves.at(3), save);
-                                // std::cout << rooms[i].getIsCompleted() << std::endl;
-                                end = std::chrono::system_clock::now();
-                                if(end >= start + std::chrono::minutes(GAME_DURATION_MINUTES))
-                                {
-                                    std::cout << "You ran out of time!" << std::endl;
-                                    return 0;
-                                }
-                                else if(rooms[i].getIsEnd() == true)
-                                {
-                                    std::cout << "You won!" << std::endl;
-                                    return 0;
                                 }
 
-                                saves.at(2) = i;
+                                std::cout << "You ran out of lives!" << std::endl;
+                                return 0;
+
+                                break;
                             }
-
-                            std::cout << "You ran out of lives!" << std::endl;
-                            return 0;
-
-                            saves.at(0) = 1;
-                            saves.at(1) = 1;
-                            fout.open("saves.csv");
-
-                            for(int i = 0; i < saves.size(); i++)
+                        
+                            case 3:
                             {
-                                fout << saves.at(i) << ",";
+                                std::cout << "Save 3" << std::endl;
+
+                                std::ofstream fout;
+                                std::ifstream fin;
+                                //filereading in vector
+                                fin.open("questions.csv");
+
+                                while(std::getline(fin, row))
+                                {
+                                    std::stringstream sin(row);
+                                    room_count++;
+
+                                    std::getline(sin, aux, ',');
+                                    question = aux;
+
+                                    std::getline(sin, aux, ',');
+                                    answer = aux;
+
+                                    std::getline(sin, aux, ',');
+                                    hint = aux;
+
+                                    std::getline(sin, aux, ',');
+                                    std::stringstream sin2(aux);
+                                    while (std::getline(sin2, aux, ' ')) 
+                                    {
+                                        exits.push_back(aux);
+                                    }
+
+                                    std::getline(sin, aux, ',');
+                                    is_completed = aux == "true" ? true : false;
+
+                                    std::getline(sin, aux, ',');
+                                    is_end = aux == "true" ? true : false;
+
+                                    rooms.push_back(Room(question, answer, hint, exits, is_completed, is_end));
+
+                                    exits.clear();
+                                }
+
+                                fin.close();
+
+                                start = std::chrono::system_clock::now();
+
+                                for(int i = room_save.at(i); i < rooms.size() && MAX_HEALTH > 0; i++)
+                                {
+                                    map.printRoom(rooms[i], i, file_save.at(i));
+                                    // std::cout << rooms[i].getIsCompleted() << std::endl;
+                                    end = std::chrono::system_clock::now();
+                                    if(end >= start + std::chrono::minutes(GAME_DURATION_MINUTES))
+                                    {
+                                        std::cout << "You ran out of time!" << std::endl;
+                                        return 0;
+                                    }
+                                    else if(rooms[i].getIsEnd() == true)
+                                    {
+                                        std::cout << "You won!" << std::endl;
+                                        return 0;
+                                    }
+                                }
+
+                                std::cout << "You ran out of lives!" << std::endl;
+                                return 0;
+
+                                break;
                             }
 
-                            break;
-                        }
-
-                        default:
-                        {
-                            std::cout << "Invalid input!" << std::endl;
-                            std::cin >> save;
-                            break;
+                            default:
+                            {
+                                std::cout << "Invalid input!" << std::endl;
+                                std::cin >> save;
+                                break;
+                            }
                         }
                     }
+                    }
+                    
                 }while(save > 0 && save < 4);
                 break;
             }
