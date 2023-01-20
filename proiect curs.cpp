@@ -127,7 +127,7 @@ class Map
     public:
         bool validMove(std::string move, std::vector<std::string> exits);
         void printRoom(Room room, int i, int save);
-        bool answerQuestion(std::string answer, std::string correct_answer, int &health, std::string hint, int &try_count);
+        bool answerQuestion(std::string answer, std::string correct_answer, std::string hint, int &try_count);
         void showHint(std::string hint);
         int getMove(std::vector<std::string> exits, int i);
         void saveGame(int i, int save);
@@ -137,9 +137,11 @@ class Map
 bool Map::validMove(std::string move, std::vector<std::string> exits) 
 {
     auto it = find(exits.begin(), exits.end(), move);
+
     for(auto i : exits)
         if(it != exits.end())
             return true;
+
     return false;
 }
 
@@ -149,19 +151,19 @@ void Map::printRoom(Room room, int i, int save)
     std::string move;
     std::string answer;
     int try_count = 0;
+
     if(room.is_completed == false)
     {
         std::cout << "Room " << i + 1 << std::endl;
         std::cout << "Question: " << room.question << std::endl;
         std::cout << "Answer: ";
         std::getline(std::cin, answer);
-        std::cout << answer <<  std::endl;
-        std::cout << room.getAnswer() << std::endl;
-        answerQuestion(answer, room.answer, MAX_HEALTH, room.hint, try_count);
+        
+        answerQuestion(answer, room.answer, room.hint, try_count);
         
         switch (save)
         {
-        case 1:
+            case 1:
             {
                 std::ofstream fout;
                 fout.open("save1.csv", std::ios::app);
@@ -173,10 +175,8 @@ void Map::printRoom(Room room, int i, int save)
 
                 fout << ",";
 
-                if(answerQuestion(answer, room.answer, MAX_HEALTH, room.hint, try_count) == true)
+                if(answerQuestion(answer, room.answer, room.hint, try_count) == true)
                 {
-                    
-
                     std::cout << "Correct answer!" << std::endl;
                     room.is_completed = true;
 
@@ -186,8 +186,10 @@ void Map::printRoom(Room room, int i, int save)
                         fout << "false" << ",";
 
                     std::cout << "Exits: ";
+
                     for(auto j : room.exits)
                         std::cout << j << " ";
+
                     std::cout << std::endl;
 
                     getMove(room.exits, i);
@@ -196,12 +198,17 @@ void Map::printRoom(Room room, int i, int save)
                 {   
                     do
                     {
+                        MAX_HEALTH--;
+
                         std::cout << "Wrong answer!" << std::endl;
                         std::cout << "health: " << MAX_HEALTH << std::endl;
                         std::cout << "Answer: ";
+
                         std::getline(std::cin, answer);
-                        answerQuestion(answer, room.answer, MAX_HEALTH, room.hint, try_count);
-                    } while (answerQuestion(answer, room.answer, MAX_HEALTH, room.hint, try_count) == false && MAX_HEALTH > 0);
+
+                        answerQuestion(answer, room.answer, room.hint, try_count);
+
+                    } while (answerQuestion(answer, room.answer, room.hint, try_count) == false && MAX_HEALTH > 0);
                 }
 
             if(room.is_end == true)
@@ -210,6 +217,7 @@ void Map::printRoom(Room room, int i, int save)
                 fout << "false" << std::endl;
 
             fout.close();
+            
             break;
             }
 
@@ -226,7 +234,7 @@ void Map::printRoom(Room room, int i, int save)
 
                 fout << ",";
 
-                if(answerQuestion(answer, room.answer, MAX_HEALTH, room.hint, try_count) == true)
+                if(answerQuestion(answer, room.answer, room.hint, try_count) == true)
                 {
                     std::cout << "Correct answer!" << std::endl;
                     room.is_completed = true;
@@ -247,13 +255,17 @@ void Map::printRoom(Room room, int i, int save)
                 {   
                     do
                     {
+                        MAX_HEALTH--;
+
                         std::cout << "Wrong answer!" << std::endl;
                         std::cout << "health: " << MAX_HEALTH << std::endl;
                         std::cout << "Answer: ";
-                        std::cin >> answer;
-                        answerQuestion(answer, room.answer, MAX_HEALTH, room.hint, try_count);
 
-                    } while (answerQuestion(answer, room.answer, MAX_HEALTH, room.hint, try_count) == false && MAX_HEALTH > 0);
+                        std::cin >> answer;
+
+                        answerQuestion(answer, room.answer, room.hint, try_count);
+
+                    } while (answerQuestion(answer, room.answer, room.hint, try_count) == false && MAX_HEALTH > 0);
                 }
 
             if(room.is_end == true)
@@ -262,6 +274,7 @@ void Map::printRoom(Room room, int i, int save)
                 fout << "false" << std::endl;
 
             fout.close();
+
             break;
             }
             
@@ -279,7 +292,7 @@ void Map::printRoom(Room room, int i, int save)
 
                 fout << ",";
 
-                if(answerQuestion(answer, room.answer, MAX_HEALTH, room.hint, try_count) == true)
+                if(answerQuestion(answer, room.answer, room.hint, try_count) == true)
                 {
                     std::cout << "Correct answer!" << std::endl;
                     room.is_completed = true;
@@ -299,13 +312,18 @@ void Map::printRoom(Room room, int i, int save)
                 else
                 {   
                     do
-                    {
+                    {   
+                        MAX_HEALTH--;
+
                         std::cout << "Wrong answer!" << std::endl;
                         std::cout << "health: " << MAX_HEALTH << std::endl;
                         std::cout << "Answer: ";
+
                         std::cin >> answer;
-                        answerQuestion(answer, room.answer, MAX_HEALTH, room.hint, try_count);
-                    } while (answerQuestion(answer, room.answer, MAX_HEALTH, room.hint, try_count) == false && MAX_HEALTH > 0);
+
+                        answerQuestion(answer, room.answer,room.hint, try_count);
+
+                    } while (answerQuestion(answer, room.answer, room.hint, try_count) == false && MAX_HEALTH > 0);
                 }
 
             if(room.is_end == true)
@@ -314,6 +332,7 @@ void Map::printRoom(Room room, int i, int save)
                 fout << "false" << std::endl;
 
             fout.close();
+
             break;
             }
             
@@ -321,6 +340,12 @@ void Map::printRoom(Room room, int i, int save)
         default:
             break;
         }      
+
+        if(MAX_HEALTH == 0)
+        {
+            std::cout << "You lost all your lives!" << std::endl;
+            exit(0);
+        }
 
         std::cout << "Do you want to exit and save the game? (y/n): ";
 
@@ -337,7 +362,7 @@ void Map::printRoom(Room room, int i, int save)
     } 
 }
 
-bool Map::answerQuestion(std::string answer, std::string correct_answer, int &health, std::string hint, int &try_count) 
+bool Map::answerQuestion(std::string answer, std::string correct_answer, std::string hint, int &try_count) 
 {
     if(answer == correct_answer)
     {
@@ -354,9 +379,7 @@ bool Map::answerQuestion(std::string answer, std::string correct_answer, int &he
         }
         else
         {
-
             std::cout << "You have no more hints!" << std::endl;
-            health--;
             return false;
         }
 
@@ -395,7 +418,6 @@ int Map::getMove(std::vector<std::string> exits, int i)
         } while(validMove(move, exits) == false);
     }
 
-
     i = new_room - 1;
 
     return i;
@@ -429,35 +451,32 @@ int main()
     std::chrono::time_point<std::chrono::system_clock> start, end;
 
     Map map;
-
     std::vector<Room> rooms;
+    std::vector <std::string> exits;
     std::string question;
     std::string answer;
     std::string hint;
-    std::vector <std::string> exits;
+    std::string aux;
+    std::string row;
     bool is_completed;
     bool is_end;
     int num, i;
     int room_save;
     int file_save;
-    
-    std::string aux;
-    std::string row;
-    std::ifstream fin1;
-    int room_count = -1;
-
     int input;
+    int room_count = -1;
+    std::ifstream fin1;
 
     do
     {
         std::cout << "Option: ";
         std::cin >> input;
+        
         switch (input)
         {
             case 1:
             {
                 int save;
-
                 std::ifstream fin;
                 std::ofstream fout;
                 fin.open("questions.csv");
@@ -503,13 +522,13 @@ int main()
 
                 start = std::chrono::system_clock::now();
 
-                
                 for(i = 0; i < rooms.size() && MAX_HEALTH > 0; i++)
                 {
         
                     map.printRoom(rooms[i], i, save);
                     
                     end = std::chrono::system_clock::now();
+
                     if(end >= start + std::chrono::minutes(GAME_DURATION_MINUTES))
                     {
                         std::cout << "You ran out of time!" << std::endl;
@@ -547,7 +566,6 @@ int main()
 
                 fin1.close();
 
-
                 do
                 {
                     std::cout << "Choose the file you saved your progress: " << std::endl;
@@ -555,7 +573,7 @@ int main()
                     std::cout << "2. Save 2" << std::endl;
                     std::cout << "3. Save 3" << std::endl;
                     std::cin >> save;
-
+                    std::getchar();
                     
                     if(save == file_save)
                     {
@@ -586,6 +604,7 @@ int main()
 
                                     std::getline(sin, aux, ',');
                                     std::stringstream sin2(aux);
+
                                     while (std::getline(sin2, aux, ' ')) 
                                     {
                                         exits.push_back(aux);
@@ -594,7 +613,6 @@ int main()
                                     std::getline(sin, aux, ',');
                                     is_completed = aux == "true" ? true : false;
                                 
-
                                     std::getline(sin, aux, ',');
                                     is_end = aux == "true" ? true : false;
 
@@ -607,13 +625,12 @@ int main()
 
                                 start = std::chrono::system_clock::now();
 
-
                                 for(int i = room_save; i < rooms.size() && MAX_HEALTH > 0; i++)
                                 {
-
                                     map.printRoom(rooms[i], i, file_save);
-                                    // std::cout << rooms[i].getIsCompleted() << std::endl;
+                                    
                                     end = std::chrono::system_clock::now();
+
                                     if(end >= start + std::chrono::minutes(GAME_DURATION_MINUTES))
                                     {
                                         std::cout << "You ran out of time!" << std::endl;
@@ -624,10 +641,8 @@ int main()
                                         std::cout << "You won!" << std::endl;
                                         return 0;
                                     }
-
                                 }
 
-                                std::cout << "You ran out of lives!" << std::endl;
                                 return 0;
 
                                 break;
@@ -658,6 +673,7 @@ int main()
 
                                     std::getline(sin, aux, ',');
                                     std::stringstream sin2(aux);
+
                                     while (std::getline(sin2, aux, ' ')) 
                                     {
                                         exits.push_back(aux);
@@ -680,10 +696,10 @@ int main()
                                 
                                 for(int i = room_save; i < rooms.size() && MAX_HEALTH > 0; i++)
                                 {   
-                                    
                                     map.printRoom(rooms[i], i, file_save);
-                                    // std::cout << rooms[i].getIsCompleted() << std::endl;
+
                                     end = std::chrono::system_clock::now();
+
                                     if(end >= start + std::chrono::minutes(GAME_DURATION_MINUTES))
                                     {
                                         std::cout << "You ran out of time!" << std::endl;
@@ -697,7 +713,6 @@ int main()
 
                                 }
 
-                                std::cout << "You ran out of lives!" << std::endl;
                                 return 0;
 
                                 break;
@@ -727,7 +742,9 @@ int main()
                                     hint = aux;
 
                                     std::getline(sin, aux, ',');
+
                                     std::stringstream sin2(aux);
+
                                     while (std::getline(sin2, aux, ' ')) 
                                     {
                                         exits.push_back(aux);
@@ -751,8 +768,9 @@ int main()
                                 for(int i = room_save; i < rooms.size() && MAX_HEALTH > 0; i++)
                                 {
                                     map.printRoom(rooms[i], i, file_save);
-                                    // std::cout << rooms[i].getIsCompleted() << std::endl;
+
                                     end = std::chrono::system_clock::now();
+
                                     if(end >= start + std::chrono::minutes(GAME_DURATION_MINUTES))
                                     {
                                         std::cout << "You ran out of time!" << std::endl;
@@ -765,7 +783,6 @@ int main()
                                     }
                                 }
 
-                                std::cout << "You ran out of lives!" << std::endl;
                                 return 0;
 
                                 break;
