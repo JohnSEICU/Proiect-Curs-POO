@@ -154,7 +154,9 @@ void Map::printRoom(Room room, int i, int save)
         std::cout << "Room " << i + 1 << std::endl;
         std::cout << "Question: " << room.question << std::endl;
         std::cout << "Answer: ";
-        std::cin >> answer;
+        std::getline(std::cin, answer);
+        std::cout << answer <<  std::endl;
+        std::cout << room.getAnswer() << std::endl;
         answerQuestion(answer, room.answer, MAX_HEALTH, room.hint, try_count);
         
         switch (save)
@@ -197,7 +199,7 @@ void Map::printRoom(Room room, int i, int save)
                         std::cout << "Wrong answer!" << std::endl;
                         std::cout << "health: " << MAX_HEALTH << std::endl;
                         std::cout << "Answer: ";
-                        std::cin >> answer;
+                        std::getline(std::cin, answer);
                         answerQuestion(answer, room.answer, MAX_HEALTH, room.hint, try_count);
                     } while (answerQuestion(answer, room.answer, MAX_HEALTH, room.hint, try_count) == false && MAX_HEALTH > 0);
                 }
@@ -323,6 +325,7 @@ void Map::printRoom(Room room, int i, int save)
         std::cout << "Do you want to exit and save the game? (y/n): ";
 
         std::cin >> close;
+        std::getchar();
 
         if(close == "y")
         {
@@ -400,57 +403,13 @@ int Map::getMove(std::vector<std::string> exits, int i)
 
 void Map::saveGame(int i, int save) 
 {
-    std::string row, aux;
-    std::ofstream fin;
-    fin.open("saves.csv");
+    std::ofstream fout;
+    fout.open("saves.csv", std::ios::app);
 
-    std::vector<int> save_rooms;
+    fout << i + 1 << "," << save << std::endl;
 
-    while(std::getline(fin, row))
-    {
-        std::stringstream ss(row);
-        while(getline(ss, aux, ','))
-        {
-            save_rooms.push_back(std::stoi(aux));
-        }
-    }   
-    
-    switch (save)
-    {
-        case 1:
-        {
-            std::ofstream fout;
-            fout.open("saves.csv", std::ios::out);
-            save_rooms.at(0) = i;
-            fout << save_rooms.at(0) << "," << save_rooms.at(1) << "," <<  save_rooms.at(2) << std::endl;
-            fout.close();
-            break;
-        }
-            
-        case 2:
-        {
-            std::ofstream fout;
-            fout.open("saves.csv", std::ios::out);
-            save_rooms.at(1) = i;
-            fout << save_rooms.at(0) << "," << save_rooms.at(1) << "," <<  save_rooms.at(2) << std::endl;
-            fout.close();
-            break;
-        }
+    fout.close();
 
-        case 3:
-        {
-            std::ofstream fout;
-            fout.open("saves.csv", std::ios::out);
-            save_rooms.at(2) = i;
-            fout << save_rooms.at(0) << "," << save_rooms.at(1) << "," <<  save_rooms.at(2) << std::endl;
-            fout.close();
-            break;
-        }
-
-        default:
-            break;
-
-    }
 }
 
 int main()
@@ -479,8 +438,8 @@ int main()
     bool is_completed;
     bool is_end;
     int num, i;
-    std::vector <int> room_save;
-    std::vector <int> file_save;
+    int room_save;
+    int file_save;
     
     std::string aux;
     std::string row;
@@ -540,6 +499,7 @@ int main()
                 std::cout << "In which file do you want to save your progress? (1-3)" << std::endl;
 
                 std::cin >> save;
+                std::getchar();
 
                 start = std::chrono::system_clock::now();
 
@@ -577,18 +537,16 @@ int main()
                 while(std::getline(fin1, row))
                 {
                     std::stringstream sin(row);
+
                     std::getline(sin, aux, ',');
-                    room_save.push_back(std::stoi(aux));
+                    room_save = std::stoi(aux);
+
                     std::getline(sin, aux, ',');
-                    file_save.push_back(std::stoi(aux));
+                    file_save = std::stoi(aux);
                 }
 
                 fin1.close();
 
-                for (int i = 0; i < room_save.size(); i++)
-                {
-                    std::cout << room_save.at(i) << "," << file_save.at(i) << std::endl;
-                }
 
                 do
                 {
@@ -598,9 +556,8 @@ int main()
                     std::cout << "3. Save 3" << std::endl;
                     std::cin >> save;
 
-                    for(int i = 0; i < file_save.size(); i++)
-                    {
-                        if(save == file_save.at(i))
+                    
+                    if(save == file_save)
                     {
                         switch (save)
                         {
@@ -651,10 +608,10 @@ int main()
                                 start = std::chrono::system_clock::now();
 
 
-                                for(int i = room_save.at(i); i < rooms.size() && MAX_HEALTH > 0; i++)
+                                for(int i = room_save; i < rooms.size() && MAX_HEALTH > 0; i++)
                                 {
 
-                                    map.printRoom(rooms[i], i, file_save.at(i));
+                                    map.printRoom(rooms[i], i, file_save);
                                     // std::cout << rooms[i].getIsCompleted() << std::endl;
                                     end = std::chrono::system_clock::now();
                                     if(end >= start + std::chrono::minutes(GAME_DURATION_MINUTES))
@@ -721,10 +678,10 @@ int main()
 
                                 start = std::chrono::system_clock::now();
                                 
-                                for(int i = room_save.at(i); i < rooms.size() && MAX_HEALTH > 0; i++)
+                                for(int i = room_save; i < rooms.size() && MAX_HEALTH > 0; i++)
                                 {   
                                     
-                                    map.printRoom(rooms[i], i, file_save.at(i));
+                                    map.printRoom(rooms[i], i, file_save);
                                     // std::cout << rooms[i].getIsCompleted() << std::endl;
                                     end = std::chrono::system_clock::now();
                                     if(end >= start + std::chrono::minutes(GAME_DURATION_MINUTES))
@@ -791,9 +748,9 @@ int main()
 
                                 start = std::chrono::system_clock::now();
 
-                                for(int i = room_save.at(i); i < rooms.size() && MAX_HEALTH > 0; i++)
+                                for(int i = room_save; i < rooms.size() && MAX_HEALTH > 0; i++)
                                 {
-                                    map.printRoom(rooms[i], i, file_save.at(i));
+                                    map.printRoom(rooms[i], i, file_save);
                                     // std::cout << rooms[i].getIsCompleted() << std::endl;
                                     end = std::chrono::system_clock::now();
                                     if(end >= start + std::chrono::minutes(GAME_DURATION_MINUTES))
@@ -821,9 +778,7 @@ int main()
                                 break;
                             }
                         }
-                    }
-                    }
-                    
+                    } 
                 }while(save > 0 && save < 4);
                 break;
             }
