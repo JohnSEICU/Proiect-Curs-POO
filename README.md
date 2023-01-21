@@ -1,10 +1,14 @@
 # Proiect-Curs-POO
-Proiectul de curs de la POO
+3. Realizarea unui platforme de învățare bazată pe gamification (escape room) pentru asimilarea cunoștințelor aferente Curs 7-9 (5-6 studenti)
 
-In fisierul .cpp se va scrie codul, fiecare persoana va face cate un commit cu ce a facut pentru un markdown
+Obiective:
 
-In fisierul TO DO se vor gasi task-urile pentru fiecare persoana
+                                i.            Proiectarea si implementarea unei solutii de tip gamification (Escape room)
 
-Inca NU am primit tema proiectului asa ca acest repo a fost facut pentru a nu pierde timpul dupa ce o primim
+                              ii.            Selectarea notiunilor ce trebuiesc insusite
 
-Va rog ca dupa ce faceti un task sau ceva sa rulati codul sa fiti siguri ca merge
+                            iii.            Dezvoltarea aplicatiei propriu-zise
+
+ 
+
+Grad dificultate: 1
