@@ -1,28 +1,28 @@
-What does a Flowchart of Communication do?,better communication,Teamwork,East,FALSE,FALSE
-What does an Escalation Plan contain,priorities and solution,Priorities,East,FALSE,FALSE
-What is the first thing you do in Communication management?,planning,Second step is implementation,North,FALSE,FALSE
-What is the last step of Communication control?,feedback,Third step is Assessment,East,FALSE,FALSE
-What is the definition of Risk?,danger,Combination between the probability of producing a event and consequences it,South,FALSE,FALSE
-What is the name of the method of identyfing Risks that starts with b?,brainstorming,Brain,South,FALSE,FALSE
-Types of entries in Identifying risks.,internal external,Identifying risks is the process through which possible risks that may affect the smooth development of the project are identified and documented.,West,FALSE,FALSE
-An identifying risks technique that starts with a c.,checklist,organizer to highlight the sources of risk potential.,South,FALSE,FALSE
-A graphical identifying risks technique,flowchart,it enables a better representation (and understanding) of causes and effects of risks.,East,FALSE,FALSE
-Give me an example of a source of risk that comes from the physical space and involves water.,flood,water overflows onto land that is normally dry,East,FALSE,FALSE
-What is the name of a source of risk that comes from the The political environment and starts with a c?,corruption,Romanian Politicians,East,FALSE,FALSE
-What is the name of the technique utilised in Quantification / analysis risks to calculate costs.,statistical amounts,statistic,East,FALSE,FALSE
-What is the most used method to simulate risks?,Monte-Carlo,Popular Betting spot in Monaco,North,FALSE,FALSE
-What is the name of the method in which you find a risk to be tolerable.,risk appetite,craving for risk,West,FALSE,FALSE
-A technique of controlling the answer to risks that involves improvising.,work around,work,North,FALSE,FALSE
-Who has the role of liaison in communication with stakeholders?,the manager,The person responsible for the activity of a group,West,FALSE,FALSE
-Who holds the Administrative and Behavioral role over the personnel?,the manager,The person with the role of leader,West,FALSE,FALSE
-What is the process of hiring identifying and attracting those interested in applying for various positions called?,recruitment,Synonym with: selection.,North,FALSE,FALSE
-What is the final stage of decision-making in the recruitment process?,selection,Synonym with: sorting,East,FALSE,FALSE
-What is the bidirectional process between people called?,communication,The ensemble of actions that have in common the transmission of information,South,FALSE,FALSE
-The communication strategy comes in multiple stages such as: Formulating the message Planning and organizing etc. What is the first stage of the communication strategy called?,identifying objectives,Identifying (...),South,FALSE,FALSE
-Who is responsible for funding a project and its success in the ultimate instance?,the sponsor,Physical person with the quality of sponsoring someone or something,East,FALSE,FALSE
-What is the group responsible for reviewing technical specifications and authorizing changes?,the control board,Belongs to the registry of stakeholders,North,FALSE,FALSE
-Who is the beneficiary of a project?,the client,The one who buys,West,FALSE,FALSE
-Who ensures that the technical part of the project is well-executed?,the technical leader,The person chosen by a team,West,FALSE,FALSE
-What is the table called that includes details about communication and the person responsible for communication?,the communication matrix,Represents an easy way to keep stakeholders informed,South,FALSE,FALSE
-What is the hierarchical structure that enhances the understanding of the communication process called?,the communication flowchart,A visual diagram,South,FALSE,FALSE
-What concept is represented by a strategic approach to the efficient management of people in a company or organization?,human resource management,Crucial importance at organizational and personal level,East,FALSE,TRUE
+What does a Flowchart of Communication do?,Analyze,Teamwork,East,false,false
+What does an Escalation Plan contain,priorities and solutions,Priorities,East,false,false
+What is the first thing you do in Communication management?,planning,Second step is implementation,North,false,false
+What is the last step of Communication control?,feedback,Third step is Assessment,East,false,false
+What is the definition of Risk?,danger,Combination between the probability of producing a event and consequences it,South,false,false
+What is the name of the method of identyfing Risks that starts with b?,brainstorming,Brain,South,false,false
+Types of entries in Identifying risks.,internal external,Identifying risks is the process through which possible risks that may affect the smooth development of the project are identified and documented.,West,false,false
+An identifying risks technique that starts with a c.,checklist,organizer to highlight the sources of risk potential.,South,false,false
+A graphical identifying risks technique,Pareto,Pareto chart,East,false,false
+Give me an example of a source of risk that comes from the physical space and involves water.,flood,water overflows onto land that is normally dry,East,false,false
+What is the name of a source of risk that comes from the The political environment and starts with a c?,corruption,Romanian Politicians,East,false,false
+What is the name of the technique utilised in Quantification / analysis risks to calculate costs.,Monte-Carlo,Monte Carlo simulation,East,false,false
+What is the most used method to simulate risks?,Monte-Carlo,Popular Betting spot in Monaco,North,false,false
+What is the name of the method in which you find a risk to be tolerable.,risk acceptance,accepting risk,West,false,false
+A technique of controlling the answer to risks that involves improvising.,work around,work around,North,false,false
+Who has the role of liaison in communication with stakeholders?,the manager,The person responsible for the activity of a group,West,false,false
+Who holds the Administrative and Behavioral role over the personnel?,the manager,The person with the role of leader,West,false,false
+What is the process of hiring identifying and attracting those interested in applying for various positions called?,recruitment,Synonym with: selection.,North,false,false
+What is the final stage of decision-making in the recruitment process?,selection,Synonym with: sorting,East,false,false
+What is the bidirectional process between people called?,communication,The ensemble of actions that have in common the transmission of information,South,false,false
+The communication strategy comes in multiple stages such as: Formulating the message Planning and organizing etc. What is the first stage of the communication strategy called?,identifying objectives,Identifying (...),South,false,false
+Who is responsible for funding a project and its success in the ultimate instance?,the sponsor,Physical person with the quality of sponsoring someone or something,East,false,false
+What is the group responsible for reviewing technical specifications and authorizing changes?,the control board,Belongs to the registry of stakeholders,North,false,false
+Who is the beneficiary of a project?,the client,The one who buys,West,false,false
+Who ensures that the technical part of the project is well-executed?,the technical leader,The person chosen by a team,West,false,false
+What is the table called that includes details about communication and the person responsible for communication?,the communication matrix,Represents an easy way to keep stakeholders informed,South,false,false
+What is the hierarchical structure that enhances the understanding of the communication process called?,communication flowchart,A visual diagram,South,false,false
+What concept is represented by a strategic approach to the efficient management of people in a company or organization?,human resource management,Crucial importance at organizational and personal level HRM,East,false,true
