@@ -1,0 +1,10 @@
+For running the game the code must be compiled again.
+
+For compiling the game the user must have any kind of compile ( we recommand MinGW )
+
+Open the .cpp file using your IDE.
+Compile the code:
+- If you want to compile the code using the terminal run the command " g++ -o ./proiect-poo.exe" "./proiect-poo.cpp" "
+- Or use the default compile button on your IDE
+
+For running the game, the user must run the .exe file in the folder.
