@@ -1,3 +1,10 @@
+// refacere intrebari
+// afisare timp
+// mapare
+// clear screen on every new room / interfata grafica
+// install kit(fisier)
+#include <cstdlib>
+
 #include <iostream>
 #include <sstream>
 #include <fstream>
@@ -158,9 +165,7 @@ void Map::printRoom(Room room, int i, int save)
         std::cout << "Question: " << room.question << std::endl;
         std::cout << "Answer: ";
         std::getline(std::cin, answer);
-        
-        answerQuestion(answer, room.answer, room.hint, try_count);
-        
+
         switch (save)
         {
             case 1:
@@ -198,15 +203,11 @@ void Map::printRoom(Room room, int i, int save)
                 {   
                     do
                     {
-                        MAX_HEALTH--;
-
                         std::cout << "Wrong answer!" << std::endl;
                         std::cout << "health: " << MAX_HEALTH << std::endl;
                         std::cout << "Answer: ";
 
                         std::getline(std::cin, answer);
-
-                        answerQuestion(answer, room.answer, room.hint, try_count);
 
                     } while (answerQuestion(answer, room.answer, room.hint, try_count) == false && MAX_HEALTH > 0);
                 }
@@ -255,16 +256,11 @@ void Map::printRoom(Room room, int i, int save)
                 {   
                     do
                     {
-                        MAX_HEALTH--;
-
                         std::cout << "Wrong answer!" << std::endl;
                         std::cout << "health: " << MAX_HEALTH << std::endl;
                         std::cout << "Answer: ";
 
                         std::cin >> answer;
-
-                        answerQuestion(answer, room.answer, room.hint, try_count);
-
                     } while (answerQuestion(answer, room.answer, room.hint, try_count) == false && MAX_HEALTH > 0);
                 }
 
@@ -313,15 +309,11 @@ void Map::printRoom(Room room, int i, int save)
                 {   
                     do
                     {   
-                        MAX_HEALTH--;
-
                         std::cout << "Wrong answer!" << std::endl;
                         std::cout << "health: " << MAX_HEALTH << std::endl;
                         std::cout << "Answer: ";
 
                         std::cin >> answer;
-
-                        answerQuestion(answer, room.answer,room.hint, try_count);
 
                     } while (answerQuestion(answer, room.answer, room.hint, try_count) == false && MAX_HEALTH > 0);
                 }
@@ -344,20 +336,12 @@ void Map::printRoom(Room room, int i, int save)
         if(MAX_HEALTH == 0)
         {
             std::cout << "You lost all your lives!" << std::endl;
-            exit(0);
         }
 
-        std::cout << "Do you want to exit and save the game? (y/n): ";
-
-        std::cin >> close;
         std::getchar();
 
-        if(close == "y")
-        {
-            std::cout << "Game saved!" << std::endl;
-            saveGame(i, save);
-            exit(0);
-        }
+        std::cout << "Game saved!" << std::endl;
+        saveGame(i, save);
 
     } 
 }
@@ -380,6 +364,7 @@ bool Map::answerQuestion(std::string answer, std::string correct_answer, std::st
         else
         {
             std::cout << "You have no more hints!" << std::endl;
+            MAX_HEALTH--;
             return false;
         }
 
@@ -428,7 +413,7 @@ void Map::saveGame(int i, int save)
     std::ofstream fout;
     fout.open("saves.csv", std::ios::app);
 
-    fout << i + 1 << "," << save << std::endl;
+    fout << i << "," << save << std::endl;
 
     fout.close();
 
@@ -443,7 +428,8 @@ int main()
     std::cout << "********************   1.Start Game   ********************" << std::endl;
     std::cout << "*********************   2.Load Game  *********************" << std::endl;
     std::cout << "***********************  3.Credits  **********************" << std::endl;
-    std::cout << "*************************  4.Exit  ***********************" << std::endl;
+    std::cout << "*************************  4.Help  ***********************" << std::endl;
+    std::cout << "*************************  5.Exit  ***********************" << std::endl;
     std::cout << "**********************************************************" << std::endl;
     std::cout << "**********************************************************" << std::endl;
 
@@ -466,6 +452,7 @@ int main()
     int input;
     int room_count = -1;
     std::ifstream fin1;
+    std::chrono::duration<double> duration;
 
     do
     {
@@ -524,32 +511,29 @@ int main()
 
                 for(i = 0; i < rooms.size() && MAX_HEALTH > 0; i++)
                 {
-        
-                    map.printRoom(rooms[i], i, save);
+                    system("cls");
                     
                     end = std::chrono::system_clock::now();
+                    duration = start + std::chrono::minutes(GAME_DURATION_MINUTES) - end;
+                    std::cout << "You have ";
+                    std::cout << std::chrono::duration_cast<std::chrono::minutes>(duration).count() << " minutes left." <<std::endl;
+
+                    map.printRoom(rooms[i], i, save);
 
                     if(end >= start + std::chrono::minutes(GAME_DURATION_MINUTES))
                     {
                         std::cout << "You ran out of time!" << std::endl;
-                        return 0;
                     }
                     else if(rooms[i].getIsEnd() == true)
                     {
                         std::cout << "You won!" << std::endl;
-                        return 0;
                     }
-
-                    num = i;
                 }
             }
-
 
             case 2:
             {
                 int save;
-
-                std::cout << "Start Game" << std::endl;
 
                 fin1.open("saves.csv");
 
@@ -634,17 +618,12 @@ int main()
                                     if(end >= start + std::chrono::minutes(GAME_DURATION_MINUTES))
                                     {
                                         std::cout << "You ran out of time!" << std::endl;
-                                        return 0;
                                     }
                                     else if(rooms[i].getIsEnd() == true)
                                     {
                                         std::cout << "You won!" << std::endl;
-                                        return 0;
                                     }
                                 }
-
-                                return 0;
-
                                 break;
                             }
 
@@ -703,18 +682,13 @@ int main()
                                     if(end >= start + std::chrono::minutes(GAME_DURATION_MINUTES))
                                     {
                                         std::cout << "You ran out of time!" << std::endl;
-                                        return 0;
                                     }
                                     else if(rooms[i].getIsEnd() == true)
                                     {
                                         std::cout << "You won!" << std::endl;
-                                        return 0;
                                     }
 
                                 }
-
-                                return 0;
-
                                 break;
                             }
                         
@@ -774,17 +748,12 @@ int main()
                                     if(end >= start + std::chrono::minutes(GAME_DURATION_MINUTES))
                                     {
                                         std::cout << "You ran out of time!" << std::endl;
-                                        return 0;
                                     }
                                     else if(rooms[i].getIsEnd() == true)
                                     {
                                         std::cout << "You won!" << std::endl;
-                                        return 0;
                                     }
                                 }
-
-                                return 0;
-
                                 break;
                             }
 
@@ -812,6 +781,15 @@ int main()
 
             case 4:
             {
+                std::cout << "HELP:" << std::endl;
+                std::cout << "For the command to work the user will have to input an 'enter' after writing it." << std::endl;
+                std::cout << "All the andwers if be in lower cases with no punctuation." << std::endl;
+                std::cout << "The exit of the room will be printed on the screen for every completed room." << std::endl;
+                break;
+            }
+
+            case 5:
+            {
                 std::cout << "Thank you for playing" << std::endl;
                 return 0;
                 break;
@@ -824,7 +802,7 @@ int main()
                 break;
             }
         }
-    }while(input > 0 && input < 5);    
+    }while(input > 0 && input < 6);    
 
     return 0;
 }
