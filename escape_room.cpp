@@ -1006,11 +1006,12 @@ int main()
             case 3:
             {
                 std::cout << "Credits" << std::endl;
-                std::cout << "Made by: " << std::endl;
-                std::cout << "Bolohan Stefan-Tudor" << std::endl;
-                std::cout << "Ghiorghita Adrian-Dragos" << std::endl;
-                std::cout << "Pricopi Robert Alexandru" << std::endl;
-                std::cout << "Visan Robert Cristian" << std::endl;
+                std::cout << "This application was developed by the following students from University POLITEHNICA Bucharest / Automatic Control & Computer Science Faculty within the Erasmus+ Project 2020-1-CZ01-KA226-HE-094408" << std::endl;
+                std::cout << "- Bolohan Stefan-Tudor" << std::endl;
+                std::cout << "- Ghiorghita Adrian-Dragos" << std::endl;
+                std::cout << "- Pricopi Robert Alexandru" << std::endl;
+                std::cout << "- Visan Robert Cristian" << std::endl;
+                std::cout << "Teachers: M. Caramihai & Daniel Chis" << std::endl;
                 break;
             }
 
